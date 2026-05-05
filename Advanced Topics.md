@@ -1198,3 +1198,231 @@ Key ideas:
 - Prefer simple, clear thread-safe design first
 
 Concurrency is powerful, but correctness comes before speed.
+
+---
+
+## The Executor Framework
+
+### 1) Introduction
+
+The Executor Framework helps you manage threads in a cleaner and safer way than creating threads manually.
+
+It is a core part of modern concurrent programming in Java.
+
+### 2) Thread Pools
+
+A thread pool is a group of reusable worker threads.
+
+Instead of creating a new thread for each task, tasks are submitted to the pool.
+
+Benefits:
+
+- better performance
+- less thread-creation overhead
+- controlled resource usage
+
+### 3) Executors
+
+The `Executors` utility class creates common executor types.
+
+```java
+java.util.concurrent.ExecutorService executor =
+        java.util.concurrent.Executors.newFixedThreadPool(4);
+
+executor.submit(() -> System.out.println("Task running"));
+executor.shutdown();
+```
+
+Common factories:
+
+- `newFixedThreadPool(n)`
+- `newCachedThreadPool()`
+- `newSingleThreadExecutor()`
+
+### 4) Callables and Futures
+
+`Runnable` does not return a value.  
+`Callable<T>` can return a value (and throw exceptions).
+
+```java
+java.util.concurrent.Future<Integer> future = executor.submit(() -> 1 + 2);
+int result = future.get(); // blocks until done
+```
+
+`Future` represents a result that will be available later.
+
+### 5) Asynchronous Programming
+
+Asynchronous programming means starting tasks without blocking current thread immediately.
+
+This improves responsiveness, especially for I/O or remote calls.
+
+### 6) Completable Futures
+
+`CompletableFuture` is a powerful API for async workflows.
+
+It supports:
+
+- callbacks on completion
+- transformations
+- composition/combination
+- exception handling
+
+### 7) Creating a Completable Future
+
+You can create one with `supplyAsync` or `runAsync`.
+
+```java
+java.util.concurrent.CompletableFuture<Integer> future =
+        java.util.concurrent.CompletableFuture.supplyAsync(() -> 42);
+```
+
+### 8) Implementing an Asynchronous API
+
+Instead of returning a direct value, return `CompletableFuture<T>`.
+
+```java
+public java.util.concurrent.CompletableFuture<String> getUserNameAsync() {
+    return java.util.concurrent.CompletableFuture.supplyAsync(() -> "Stefan");
+}
+```
+
+This allows caller to continue doing other work.
+
+### 9) Running Code on Completion
+
+Use completion methods:
+
+- `thenRun()`
+- `thenAccept()`
+- `thenApply()`
+
+```java
+future.thenAccept(value -> System.out.println("Done: " + value));
+```
+
+### 10) Handling Exceptions
+
+Use `exceptionally`, `handle`, or `whenComplete`.
+
+```java
+future.exceptionally(ex -> {
+    System.out.println("Error: " + ex.getMessage());
+    return -1;
+});
+```
+
+This prevents async failures from being ignored.
+
+### 11) Transforming a Completable Future
+
+Use `thenApply` to transform result value.
+
+```java
+java.util.concurrent.CompletableFuture<String> nameFuture =
+        java.util.concurrent.CompletableFuture.supplyAsync(() -> "stefan")
+                .thenApply(String::toUpperCase);
+```
+
+### 12) Composing Completable Futures
+
+Use `thenCompose` when second async task depends on first result.
+
+```java
+java.util.concurrent.CompletableFuture<String> composed =
+        getUserNameAsync().thenCompose(name -> getGreetingAsync(name));
+```
+
+This avoids nested futures.
+
+### 13) Combining Completable Futures
+
+Use `thenCombine` when two independent futures both produce needed values.
+
+```java
+futureA.thenCombine(futureB, (a, b) -> a + " " + b);
+```
+
+### 14) Waiting for Many Tasks to Complete
+
+Use `CompletableFuture.allOf(...)`.
+
+```java
+java.util.concurrent.CompletableFuture<Void> all =
+        java.util.concurrent.CompletableFuture.allOf(future1, future2, future3);
+all.join();
+```
+
+Useful when all tasks must finish first.
+
+### 15) Waiting for the First Task
+
+Use `CompletableFuture.anyOf(...)` to continue with first completed task.
+
+```java
+java.util.concurrent.CompletableFuture<Object> first =
+        java.util.concurrent.CompletableFuture.anyOf(future1, future2);
+```
+
+Great for race/fastest-response scenarios.
+
+### 16) Handling Timeouts
+
+You can limit waiting time for futures.
+
+```java
+future.orTimeout(2, java.util.concurrent.TimeUnit.SECONDS);
+```
+
+Or provide fallback:
+
+```java
+future.completeOnTimeout("default", 2, java.util.concurrent.TimeUnit.SECONDS);
+```
+
+### 17) Project - Best Price Finder
+
+Project idea: fetch product quotes from multiple online stores and show best price.
+
+Why this project is great:
+
+- multiple independent tasks
+- async calls
+- combining results
+- timeout/error handling
+
+### 18) Solution - Getting a Quote
+
+Each store API call can return a `CompletableFuture<Quote>`.
+
+```java
+public java.util.concurrent.CompletableFuture<Double> getQuoteAsync(String store) {
+    return java.util.concurrent.CompletableFuture.supplyAsync(() -> fetchPrice(store));
+}
+```
+
+### 19) Solution - Getting Many Quotes
+
+Call many stores concurrently, then wait for all.
+
+```java
+java.util.List<java.util.concurrent.CompletableFuture<Double>> futures = stores.stream()
+        .map(this::getQuoteAsync)
+        .toList();
+
+java.util.concurrent.CompletableFuture.allOf(futures.toArray(new java.util.concurrent.CompletableFuture[0])).join();
+```
+
+Then collect results and choose minimum.
+
+### 20) Solution - Random Delays
+
+Real APIs have different response speeds. Simulating random delays helps test timeout handling and UI behavior.
+
+Example idea:
+
+- add random sleep inside mock `fetchPrice`
+- test which store returns first
+- verify fallback if a store is too slow
+
+This prepares your async code for real-world network behavior.
