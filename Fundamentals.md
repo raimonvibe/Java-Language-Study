@@ -18,6 +18,8 @@ Here, `int` means integer, `age` is the name of your box, and `25` is the value 
 
 The name you choose should describe what the data is for - that makes your code much easier to read later. So instead of calling it `x`, calling it `age` or `price` is way better.
 
+Think of the `Types` section as your Java toolbox: each type is a different tool for a different job.
+
 # Primitive Types
 
 Primitive types are Java's most basic data types. They store simple values directly, like numbers or true/false.
@@ -331,6 +333,11 @@ This lets your program interact with users instead of always using fixed values 
 
 Tip: if you are done with input, you can close the scanner with `scanner.close();`.
 
+How this connects:
+
+- The `Types` section teaches what data is and how to store it.
+- The next section (`Control Flow`) teaches how your program makes decisions using that data.
+
 ---
 
 # Control Flow
@@ -338,6 +345,8 @@ Tip: if you are done with input, you can close the scanner with `scanner.close()
 ## Comparison Operators
 
 Comparison operators compare two values. The result is always a `boolean` (`true` or `false`).
+
+Think of these operators as yes/no questions your program asks before choosing a path.
 
 Common comparison operators:
 
@@ -483,6 +492,12 @@ else
 
 A `for` loop repeats code a known number of times.
 
+Quick memory tip:
+
+- `for` = when you know roughly how many times
+- `while` = when you continue until a condition changes
+- `do..while` = when you must run at least once
+
 ```java
 for (int i = 1; i <= 5; i++) {
     System.out.println(i);
@@ -548,6 +563,11 @@ for (int number : numbers) {
 
 Use for-each when you do not need the index position.
 
+How this connects:
+
+- `Control Flow` teaches how to direct program behavior.
+- Next, `Methods & Clean Code` teaches how to organize that behavior into clean, reusable blocks.
+
 ---
 
 # Methods & Clean Code
@@ -555,6 +575,8 @@ Use for-each when you do not need the index position.
 ## Clean Coding
 
 Clean code is code that is easy to read, understand, and change later.
+
+Think of methods like labeled drawers: each drawer has one purpose, so you can find and update logic quickly.
 
 Beginner rule: write code for humans first, computer second.
 
@@ -752,6 +774,11 @@ Final mindset:
 2. Make it clear
 3. Make it clean
 
+How this connects:
+
+- `Methods & Clean Code` helps you structure and improve code.
+- The next section (`Debugging and Deploying Applications`) shows how to fix problems and share your program.
+
 ---
 
 # Debugging and Deploying Applications
@@ -759,6 +786,8 @@ Final mindset:
 ## Introduction
 
 Writing code is only one part of programming. You also need to fix problems and share your app so others can run it.
+
+Think of this final section as "real-world readiness": not just writing code, but maintaining and delivering it.
 
 That is where debugging and deploying come in:
 
