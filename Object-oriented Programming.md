@@ -712,3 +712,270 @@ Use it carefully:
 - combine with encapsulation and abstraction
 
 Done well, inheritance makes object-oriented code cleaner and more maintainable.
+
+---
+
+## Interfaces
+
+### 1) Introduction
+
+Interfaces are one of the most important tools in object-oriented Java design.
+
+They help classes work together through contracts, not hard-coded implementations.
+
+### 2) What are Interfaces
+
+An interface is a contract that defines what a class must do, without saying how.
+
+```java
+interface TaxCalculator {
+    double calculateTax();
+}
+```
+
+Any class that implements `TaxCalculator` must provide `calculateTax()`.
+
+### 3) Tightly-coupled Code
+
+Tightly-coupled code happens when a class directly depends on a specific concrete class.
+
+```java
+class Store {
+    private TaxCalculator2024 calculator = new TaxCalculator2024();
+}
+```
+
+This is hard to change and hard to test.  
+Interfaces help remove that tight dependency.
+
+### 4) Creating an Interface
+
+Create an interface with `interface`, then implement it in classes.
+
+```java
+interface NotificationService {
+    void send(String message);
+}
+
+class EmailService implements NotificationService {
+    public void send(String message) {
+        System.out.println("Email: " + message);
+    }
+}
+```
+
+Now your code can work with `NotificationService` instead of one specific class.
+
+### 5) Dependency Injection
+
+Dependency Injection means passing required objects from outside instead of creating them inside a class.
+
+This reduces coupling and makes code easier to test.
+
+### 6) Constructor Injection
+
+Pass dependency through constructor.
+
+```java
+class OrderService {
+    private final NotificationService notificationService;
+
+    public OrderService(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+}
+```
+
+This is the most common and preferred injection style.
+
+### 7) Setter Injection
+
+Pass dependency through a setter method.
+
+```java
+class OrderService {
+    private NotificationService notificationService;
+
+    public void setNotificationService(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+}
+```
+
+Useful when dependency is optional or can change later.
+
+### 8) Method Injection
+
+Pass dependency directly to the method that needs it.
+
+```java
+class OrderService {
+    public void placeOrder(NotificationService notificationService) {
+        notificationService.send("Order placed.");
+    }
+}
+```
+
+Good when dependency is used only in one operation.
+
+### 9) Interface Segregation Principle
+
+This principle says: do not force classes to implement methods they do not need.
+
+Bad design:
+
+```java
+interface Worker {
+    void work();
+    void eat();
+}
+```
+
+Better design: split into smaller interfaces.
+
+```java
+interface Workable { void work(); }
+interface Eatable { void eat(); }
+```
+
+Small focused interfaces keep code cleaner.
+
+### 10) Project - MyTube Video Platform
+
+Imagine building a simple YouTube-like app.
+
+Main flow:
+
+1. Encode video
+2. Store video metadata
+3. Notify user
+
+Great place to use interfaces:
+
+- `VideoEncoder`
+- `VideoDatabase`
+- `NotificationService`
+
+### 11) Solution
+
+A service class can depend on interfaces:
+
+```java
+class VideoProcessor {
+    private final VideoEncoder encoder;
+    private final VideoDatabase database;
+    private final NotificationService notifier;
+
+    public VideoProcessor(VideoEncoder encoder, VideoDatabase database, NotificationService notifier) {
+        this.encoder = encoder;
+        this.database = database;
+        this.notifier = notifier;
+    }
+}
+```
+
+You can swap implementations without changing `VideoProcessor`.
+
+### 12) Fields
+
+Interface fields are always:
+
+- `public`
+- `static`
+- `final`
+
+So they are constants.
+
+```java
+interface Tax {
+    double MIN_TAX = 1000;
+}
+```
+
+### 13) Static Methods
+
+Interfaces can have static methods (Java 8+).
+
+```java
+interface Logger {
+    static void log(String message) {
+        System.out.println("[LOG] " + message);
+    }
+}
+```
+
+Call using interface name: `Logger.log("Started");`
+
+### 14) Private Methods
+
+Interfaces can also have private helper methods (Java 9+), used internally by default/static methods.
+
+```java
+interface Greeting {
+    default void sayHi() {
+        print("Hi");
+    }
+
+    private void print(String text) {
+        System.out.println(text);
+    }
+}
+```
+
+This avoids repeating helper logic inside the interface.
+
+### 15) Interfaces and Abstract Classes
+
+Use interfaces for contracts.  
+Use abstract classes for shared base code/state.
+
+Quick rule:
+
+- Need multiple contracts? -> interfaces
+- Need shared fields + partial implementation? -> abstract class
+
+Both can work together in one design.
+
+### 16) When to Use Interfaces
+
+Use interfaces when:
+
+- You want loose coupling
+- You want to swap implementations easily
+- You want easier unit testing (mocking dependencies)
+- Multiple classes should follow the same contract
+
+Avoid adding interfaces "just because."  
+Use them when they improve flexibility and clarity.
+
+### 17) Common Beginner Mistakes
+
+Watch out for these:
+
+- Creating interfaces too early with only one tiny class and no flexibility need
+- Putting too many unrelated methods in one interface
+- Depending on concrete classes in service layers
+
+Start simple, then introduce interfaces where they solve a real design problem.
+
+### 18) Practice Check
+
+Try this quick exercise:
+
+1. Create an interface `PaymentGateway` with `processPayment(double amount)`
+2. Implement `StripeGateway` and `PayPalGateway`
+3. Inject one of them into `CheckoutService`
+4. Switch implementation without changing `CheckoutService`
+
+If this feels clear, your interface foundations are strong.
+
+### 19) Summary
+
+Interfaces help you design flexible and maintainable OOP systems.
+
+Key ideas to remember:
+
+- Program to interfaces, not implementations
+- Use dependency injection to reduce coupling
+- Keep interfaces small and focused
+- Combine interfaces with OOP principles for cleaner design
