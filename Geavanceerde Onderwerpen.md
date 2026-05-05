@@ -347,6 +347,11 @@ Gebruik wrapper-klassen:
 
 Tip: Java autoboxing doet deze omzetting vaak automatisch.
 
+Beginner-vergelijking:
+
+- Primitieve types zijn als losse munten.
+- Generics verwachten verpakte items, dus wrappers zijn als munthouders.
+
 ### 6) Constraints
 
 Je kunt generieke types beperken met bounds.
@@ -376,6 +381,8 @@ Mentaal model:
 
 - compile-time: Java controleert typeveiligheid
 - runtime: veel generic-detail is gewist
+
+Zie type erasure als een verzendlabel dat tijdens sorteren wordt gebruikt en voor bezorging wordt verwijderd.
 
 ### 8) Comparable Interface
 
@@ -410,6 +417,10 @@ printItem("Hello");
 printItem(123);
 ```
 
+Analogie:
+
+- Een generieke methode is als een universele oplader die op meerdere apparaten past.
+
 ### 10) Meerdere Typeparameters
 
 Een klasse of methode kan meerdere typeparameters gebruiken.
@@ -423,6 +434,10 @@ class Pair<K, V> {
 
 Handig voor key-value-structuren.
 
+Analogie:
+
+- `<K, V>` is als een labelpaar: één deel identificeert (`K`), één deel bewaart details (`V`).
+
 ### 11) Generics en Inheritance
 
 Generieke types werken met inheritance, maar let op:
@@ -432,6 +447,10 @@ Generieke types werken met inheritance, maar let op:
 Zelfs als `Dog` van `Animal` erft, zijn generieke containers standaard invariant.
 
 Dit voorkomt onveilige toewijzingen.
+
+Analogie:
+
+- Een lijst "alleen honden" kun je niet behandelen als lijst "alle dieren", anders kan er per ongeluk een kat in komen.
 
 ### 12) Wildcards
 
@@ -456,6 +475,11 @@ Onthoudregel:
 
 - `? extends T` -> goed voor lezen
 - `? super T` -> goed voor schrijven
+
+Analogie:
+
+- `? extends T` is als lezen uit een familiealbum.
+- `? super T` is als jongere familieleden toevoegen aan een bredere familieregistratie.
 
 ### 13) Samenvatting
 
@@ -520,6 +544,10 @@ Onthoud:
 - Interface = contract ("wat het kan")
 - Implementatie = motor ("hoe het werkt")
 
+Analogie:
+
+- Zelfde stuur, andere motor onder de motorkap.
+
 ### 3) Waarom Iterables Nodig Zijn
 
 Als je wilt dat custom objecten werken in loops zoals `for-each`, heeft Java een standaardmanier nodig om erdoorheen te lopen.
@@ -527,6 +555,10 @@ Als je wilt dat custom objecten werken in loops zoals `for-each`, heeft Java een
 Daarom bestaat `Iterable`.
 
 Zonder `Iterable` zou elke klasse zijn eigen loopstijl nodig hebben.
+
+Analogie:
+
+- `Iterable` is als een standaard wandelroute in een museum, zodat iedereen weet welke stap volgt.
 
 ### 4) De Iterable Interface
 
@@ -573,6 +605,10 @@ Mentaal model:
 - `hasNext()` vraagt: "Is er nog een item?"
 - `next()` zegt: "Geef het volgende item."
 
+Analogie:
+
+- `Iterator` is als op "volgende slide" klikken in een presentatie.
+
 ### 6) De Collection Interface
 
 `Collection<E>` is een root-interface voor veel collectietypes (`List`, `Set`, `Queue`).
@@ -591,6 +627,10 @@ items.add("Java");
 items.add("Spring");
 System.out.println(items.size()); // 2
 ```
+
+Analogie:
+
+- `Collection` is de basisgereedschapskist; `List`/`Set`/`Queue` zijn gespecialiseerde sets daarop.
 
 ### 7) De List Interface
 
@@ -624,6 +664,10 @@ class User implements Comparable<User> {
 
 Java weet zo standaard hoe `User`-objecten gesorteerd moeten worden.
 
+Comparable-analogie:
+
+- Alsof je één standaardmanier instelt om een kaartspel telkens te sorteren.
+
 ### 9) De Comparator Interface
 
 `Comparator<T>` definieert externe/custom sorteerregels.
@@ -634,6 +678,10 @@ java.util.Comparator<String> byLength =
 ```
 
 Gebruik `Comparator` wanneer je meerdere sorteerstijlen wilt zonder klassecode aan te passen.
+
+Comparator-analogie:
+
+- Comparable is de standaardvolgorde in het cijferboek; Comparator is de docent die een aangepaste weergave kiest.
 
 ### 10) De Queue Interface
 
@@ -667,6 +715,10 @@ System.out.println(tags.size()); // 1
 
 Gebruik `Set` wanneer uniekheid belangrijk is.
 
+Set-analogie:
+
+- Zoals een gastenlijst waarop elke naam maar één keer mag staan.
+
 ### 12) Hash Tables
 
 Hash-gebaseerde collecties (`HashSet`, `HashMap`) gebruiken hashing voor snelle lookup.
@@ -679,6 +731,10 @@ Voor custom objecten in hash-collecties moet je correct overriden:
 - `hashCode()`
 
 Deze twee moeten consistent zijn.
+
+Hash table-analogie:
+
+- `hashCode()` is als het schapnummer; `equals()` is controleren of het echt hetzelfde boek is.
 
 ### 13) De Map Interface
 
@@ -769,6 +825,10 @@ Printer p = new Printer() {
 
 Dit werkt, maar is vrij uitgebreid.
 
+Analogie:
+
+- Anonieme klasse vs lambda is als een volledige brief schrijven versus een korte duidelijke app sturen.
+
 ### 4) Lambda-expressies
 
 Een lambda is een kortere manier om een functionele interface te implementeren.
@@ -779,6 +839,10 @@ p.print("Hello");
 ```
 
 Zelfde gedrag, minder boilerplate.
+
+Lambda-analogie:
+
+- Een lambda is als een plakinstructie die je direct aan een methode meegeeft.
 
 ### 5) Variable Capture
 
@@ -791,6 +855,10 @@ Printer p = msg -> System.out.println(prefix + msg);
 
 Als je `prefix` daarna opnieuw toewijst, wijst Java dit af.
 
+Analogie:
+
+- Variable capture is als een momentopname van een waarde op het moment dat de lambda gemaakt wordt.
+
 ### 6) Method References
 
 Method references zijn snelkoppelingen wanneer een lambda slechts één methode aanroept.
@@ -801,6 +869,10 @@ p.print("Hello");
 ```
 
 Ze verbeteren leesbaarheid in veel gevallen.
+
+Method reference-analogie:
+
+- Alsof je een opgeslagen contactnaam gebruikt in plaats van een volledig telefoonnummer te typen.
 
 ### 7) Ingebouwde Functionele Interfaces
 
@@ -814,6 +886,10 @@ Java biedt veelgebruikte functionele interfaces in `java.util.function`, zoals:
 - `UnaryOperator<T>`
 
 Gebruik deze bij voorkeur in plaats van telkens nieuwe interfaces te maken.
+
+Analogie:
+
+- Ingebouwde functionele interfaces zijn als kant-en-klare opzetstukken die je op gereedschap klikt.
 
 ### 8) De Consumer Interface
 
@@ -838,6 +914,10 @@ c1.andThen(c2).accept("Item");
 ```
 
 Beide draaien in volgorde.
+
+Analogie:
+
+- Consumer chaining is als een lopende band waar elk station één stap uitvoert.
 
 ### 10) De Supplier Interface
 
@@ -898,6 +978,10 @@ System.out.println(startsWithA.and(longName).test("Alex")); // true
 
 Zo hou je voorwaarden modulair en leesbaar.
 
+Analogie:
+
+- Predicates combineren is als meerdere veiligheidscontroles achter elkaar zetten bij een toegangspoort.
+
 ### 15) De BinaryOperator Interface
 
 `BinaryOperator<T>` neemt twee waarden van hetzelfde type en geeft één waarde van hetzelfde type terug.
@@ -909,6 +993,10 @@ System.out.println(add.apply(2, 3)); // 5
 
 Nuttig voor combineren of reduceren.
 
+Analogie:
+
+- Een binary operator is als twee puzzelstukken samenvoegen tot één groter stuk.
+
 ### 16) De UnaryOperator Interface
 
 `UnaryOperator<T>` neemt één waarde en geeft hetzelfde type terug.
@@ -919,6 +1007,10 @@ System.out.println(square.apply(4)); // 16
 ```
 
 Nuttig voor same-type transformaties.
+
+Analogie:
+
+- Een unary operator is als één filter op een foto toepassen: één input, één output.
 
 ### 17) Samenvatting
 
@@ -979,6 +1071,10 @@ java.util.List<String> result = java.util.List.of("alex", "bob")
         .toList();
 ```
 
+Analogie:
+
+- Imperatief is stap-voor-stap koken; functioneel is een duidelijke bestelling plaatsen met gewenst eindresultaat.
+
 ### 3) Een Stream Maken
 
 Je kunt streams maken uit:
@@ -993,6 +1089,10 @@ java.util.stream.Stream<String> stream = java.util.stream.Stream.of("A", "B", "C
 ```
 
 Tip: streams zijn single-use; na een terminal operation maak je een nieuwe stream.
+
+Analogie:
+
+- Een stream is als een eenmalige lopende band: na het einde begin je een nieuwe ronde.
 
 ### 4) Elementen Mappen
 
@@ -1032,6 +1132,10 @@ java.util.List<Integer> sliced = java.util.List.of(1, 2, 3, 4, 5)
         .toList(); // [2, 3, 4]
 ```
 
+Analogie:
+
+- Slicen is als pagina 11-20 uit een boek nemen nadat je de eerste 10 pagina's overslaat.
+
 ### 7) Streams Sorteren
 
 Gebruik `sorted()` voor natuurlijke volgorde, of geef een comparator mee voor custom volgorde.
@@ -1052,6 +1156,10 @@ java.util.List<String> byLength = java.util.List.of("Bob", "Alexander", "Chris")
         .toList();
 ```
 
+Analogie:
+
+- Sorteren is als boeken ordenen op titel of op dikte, afhankelijk van je regel.
+
 ### 8) Unieke Elementen
 
 Gebruik `distinct()` om duplicaten te verwijderen.
@@ -1062,6 +1170,10 @@ java.util.List<Integer> unique = java.util.List.of(1, 2, 2, 3, 3, 3)
         .distinct()
         .toList(); // [1, 2, 3]
 ```
+
+Analogie:
+
+- `distinct()` is als een portier die dubbele namen van een gastenlijst verwijdert.
 
 ### 9) Elementen Peeken
 
@@ -1078,6 +1190,10 @@ java.util.List.of("a", "b", "c")
 
 Gebruik `peek()` niet voor belangrijke business side effects.
 
+Analogie:
+
+- `peek()` is als een glazen venster in een productielijn: je kijkt mee zonder te veranderen.
+
 ### 10) Simpele Reducers
 
 Reducers berekenen één waarde uit streamdata:
@@ -1089,6 +1205,10 @@ Reducers berekenen één waarde uit streamdata:
 ```java
 long count = java.util.List.of("A", "B", "C").stream().count();
 ```
+
+Analogie:
+
+- Simpele reducers zijn als dashboardmeters: één compact antwoord uit veel datapoints.
 
 ### 11) Een Stream Reducen
 
@@ -1139,6 +1259,10 @@ java.util.Map<Boolean, java.util.List<Integer>> partitioned = java.util.List.of(
         .collect(java.util.stream.Collectors.partitioningBy(n -> n % 2 == 0));
 ```
 
+Analogie:
+
+- Partitioneren is als wasgoed in twee manden verdelen: wit en niet-wit.
+
 ### 15) Primitive Type Streams
 
 Java heeft gespecialiseerde streams voor primitieve types:
@@ -1150,6 +1274,10 @@ Java heeft gespecialiseerde streams voor primitieve types:
 ```java
 int total = java.util.stream.IntStream.rangeClosed(1, 5).sum(); // 15
 ```
+
+Analogie:
+
+- Primitive streams zijn als een expresstrook voor numeriek verkeer.
 
 ### 16) Samenvatting
 
@@ -1200,6 +1328,10 @@ Korte samenvatting:
 
 Eén proces kan meerdere threads hebben die geheugen delen.
 
+Analogie:
+
+- Een proces is als een kantoorgebouw; threads zijn medewerkers die dezelfde ruimte delen.
+
 ### 3) Een Thread Starten
 
 Je start een nieuwe thread door code (`Runnable`) aan `Thread` te geven.
@@ -1210,6 +1342,10 @@ thread.start();
 ```
 
 Gebruik `start()`, niet `run()`, om echt een aparte thread te krijgen.
+
+Analogie:
+
+- `run()` is het zelf doen; `start()` is het delegeren aan een nieuwe medewerker.
 
 ### 4) Een Thread Pauzeren
 
@@ -1223,6 +1359,10 @@ try {
 }
 ```
 
+Analogie:
+
+- `sleep()` is alsof je één medewerker een getimede pauze geeft.
+
 ### 5) Een Thread Joinen
 
 `join()` laat één thread wachten tot een andere klaar is.
@@ -1232,6 +1372,10 @@ Thread worker = new Thread(() -> System.out.println("Work done"));
 worker.start();
 worker.join(); // wait for worker
 ```
+
+Analogie:
+
+- `join()` is wachten in de vergaderruimte tot je collega met benodigde data terug is.
 
 ### 6) Een Thread Onderbreken
 
@@ -1252,6 +1396,10 @@ Meerdere threads die mutable data delen kunnen bugs veroorzaken zoals:
 - onverwachte volgorde
 
 Deze bugs zijn vaak moeilijk reproduceerbaar.
+
+Analogie:
+
+- Concurrency-problemen zijn als twee mensen die tegelijk hetzelfde document bewerken zonder afspraken.
 
 ### 8) Race Conditions
 
@@ -1274,6 +1422,10 @@ Veelgebruikte strategieën:
 
 Kies de simpelste strategie die het probleem oplost.
 
+Analogie:
+
+- Thread safety is als huisbeveiliging: vermijd gedeelde toegang waar mogelijk, en voeg extra sloten alleen toe waar nodig.
+
 ### 10) Confinement
 
 Confinement betekent data beperken tot één thread.
@@ -1281,6 +1433,10 @@ Confinement betekent data beperken tot één thread.
 Als slechts één thread data kan bereiken, is synchronisatie voor die data niet nodig.
 
 Voorbeeld: lokale variabelen in een methode zijn thread-confined.
+
+Analogie:
+
+- Confinement is als elke kok zijn eigen snijplank geven om botsingen te voorkomen.
 
 ### 11) Locks
 
@@ -1297,6 +1453,10 @@ try {
 ```
 
 Altijd unlocken in `finally`.
+
+Analogie:
+
+- Een lock is als één kamersleutel: maar één persoon kan tegelijk naar binnen tot de sleutel terug is.
 
 ### 12) Het synchronized-keyword
 
@@ -1318,6 +1478,10 @@ private volatile boolean running = true;
 
 Gebruik dit voor zichtbaarheid, niet voor compound atomics zoals `count++`.
 
+Analogie:
+
+- `volatile` is een gedeeld prikbord dat iedereen snel ziet; het maakt meerstapsupdates niet automatisch veilig.
+
 ### 14) Thread Signalling met wait() en notify()
 
 Threads kunnen coördineren via wachten en notificeren op hetzelfde monitorobject.
@@ -1329,6 +1493,10 @@ synchronized (lock) {
 }
 ```
 
+Analogie:
+
+- `wait/notify` is als een belsysteem: één worker wacht op de bel, een andere rinkelt wanneer werk klaarstaat.
+
 ### 15) Atomic Objects
 
 Atomic classes voeren thread-safe operaties uit zonder handmatige locks.
@@ -1337,6 +1505,10 @@ Atomic classes voeren thread-safe operaties uit zonder handmatige locks.
 java.util.concurrent.atomic.AtomicInteger counter = new java.util.concurrent.atomic.AtomicInteger();
 counter.incrementAndGet();
 ```
+
+Analogie:
+
+- Atomic objects zijn als een draaipoort-teller: elke verhoging gebeurt veilig als één operatie.
 
 ### 16) Adders
 
@@ -1348,6 +1520,10 @@ adder.increment();
 long total = adder.sum();
 ```
 
+Analogie:
+
+- Adders zijn als meerdere kassa's die parallel optellen en daarna één totaalsom tonen.
+
 ### 17) Synchronized Collections
 
 Java biedt synchronized wrappers:
@@ -1356,6 +1532,10 @@ Java biedt synchronized wrappers:
 java.util.List<String> list = java.util.Collections.synchronizedList(new java.util.ArrayList<>());
 ```
 
+Analogie:
+
+- Synchronized wrappers zijn als één gedeelde kassarij: veilig, maar trager als het druk is.
+
 ### 18) Concurrent Collections
 
 `java.util.concurrent` bevat collecties voor concurrency, zoals:
@@ -1363,6 +1543,10 @@ java.util.List<String> list = java.util.Collections.synchronizedList(new java.ut
 - `ConcurrentHashMap`
 - `CopyOnWriteArrayList`
 - `ConcurrentLinkedQueue`
+
+Analogie:
+
+- Concurrent collections zijn als winkels met meerdere kassalijnen tegelijk open.
 
 ### 19) Samenvatting
 
@@ -1435,6 +1619,10 @@ Snelle keuzegids:
 - cached pool -> korte, bursty taken
 - single-thread executor -> taken strikt één voor één
 
+Analogie:
+
+- Executors kiezen is als een bezorgvloot kiezen: één busje, vast team of dynamische vloot afhankelijk van drukte.
+
 ### 4) Callables en Futures
 
 `Runnable` geeft geen waarde terug.  
@@ -1472,6 +1660,10 @@ Asynchroon programmeren betekent taken starten zonder de huidige thread direct t
 
 Dit verhoogt responsiviteit, vooral bij I/O en externe calls.
 
+Analogie:
+
+- Async is als de was starten en ondertussen koken, in plaats van naast de machine te blijven staan.
+
 ### 6) CompletableFuture
 
 `CompletableFuture` is een krachtige API voor async workflows.
@@ -1492,6 +1684,10 @@ java.util.concurrent.CompletableFuture<Integer> future =
         java.util.concurrent.CompletableFuture.supplyAsync(() -> 42);
 ```
 
+Analogie:
+
+- `runAsync` is "doe deze taak"; `supplyAsync` is "doe deze taak en geef resultaat terug".
+
 ### 8) Een Asynchrone API Implementeren
 
 In plaats van een directe waarde terug te geven, geef je `CompletableFuture<T>` terug.
@@ -1501,6 +1697,10 @@ public java.util.concurrent.CompletableFuture<String> getUserNameAsync() {
     return java.util.concurrent.CompletableFuture.supplyAsync(() -> "Stefan");
 }
 ```
+
+Analogie:
+
+- Een asynchrone API is als een volgnummer nemen: je gaat verder en wordt geroepen als het klaar is.
 
 ### 9) Code Draaien bij Voltooiing
 
@@ -1525,6 +1725,10 @@ future.exceptionally(ex -> {
 });
 ```
 
+Analogie:
+
+- Async exception-handling is als rookmelders ophangen in kamers waar je zelf niet continu aanwezig bent.
+
 ### 11) Een CompletableFuture Transformeren
 
 Gebruik `thenApply` om resultaatwaarde te transformeren.
@@ -1535,6 +1739,10 @@ java.util.concurrent.CompletableFuture<String> nameFuture =
                 .thenApply(String::toUpperCase);
 ```
 
+Analogie:
+
+- `thenApply` is als een pakket ontvangen en meteen in een nieuw formaat verpakken.
+
 ### 12) CompletableFutures Componeren
 
 Gebruik `thenCompose` wanneer de tweede async taak afhangt van het eerste resultaat.
@@ -1544,6 +1752,10 @@ java.util.concurrent.CompletableFuture<String> composed =
         getUserNameAsync().thenCompose(name -> getGreetingAsync(name));
 ```
 
+Analogie:
+
+- `thenCompose` is twee treinritten koppelen met één ticket, in plaats van tickets in tickets te nesten.
+
 ### 13) CompletableFutures Combineren
 
 Gebruik `thenCombine` wanneer twee onafhankelijke futures beide nodig zijn.
@@ -1551,6 +1763,10 @@ Gebruik `thenCombine` wanneer twee onafhankelijke futures beide nodig zijn.
 ```java
 futureA.thenCombine(futureB, (a, b) -> a + " " + b);
 ```
+
+Analogie:
+
+- `thenCombine` is wachten op brood van bakker A en soep van bakker B, en die samen serveren.
 
 ### 14) Wachten op Veel Taken
 
@@ -1585,6 +1801,10 @@ Of fallback geven:
 future.completeOnTimeout("default", 2, java.util.concurrent.TimeUnit.SECONDS);
 ```
 
+Analogie:
+
+- Een timeout is als een kookwekker: is het niet op tijd klaar, dan stap je over op een fallback-plan.
+
 ### 17) Project - Best Price Finder
 
 Projectidee: haal prijsquotes op van meerdere winkels en toon de beste prijs.
@@ -1596,6 +1816,10 @@ Waarom dit project goed is:
 - resultaten combineren
 - timeout/error-handling
 
+Analogie:
+
+- Best Price Finder is als meerdere winkels tegelijk om een offerte vragen en daarna de goedkoopste kiezen.
+
 ### 18) Oplossing - Eén Quote Ophalen
 
 Elke store-call kan `CompletableFuture<Quote>` teruggeven.
@@ -1605,6 +1829,10 @@ public java.util.concurrent.CompletableFuture<Double> getQuoteAsync(String store
     return java.util.concurrent.CompletableFuture.supplyAsync(() -> fetchPrice(store));
 }
 ```
+
+Analogie:
+
+- Eén quote-future is als één winkelmedewerker die belooft je later terug te bellen met een prijs.
 
 ### 19) Oplossing - Meerdere Quotes Ophalen
 
@@ -1620,6 +1848,10 @@ java.util.concurrent.CompletableFuture.allOf(futures.toArray(new java.util.concu
 
 Verzamel daarna resultaten en kies de minimumprijs.
 
+Analogie:
+
+- Meerdere quote-futures zijn als parallel meerdere telefoontjes doen en alle antwoorden op één blad vergelijken.
+
 ### 20) Oplossing - Willekeurige Vertragingen
 
 Echte API's reageren met verschillende snelheden. Willekeurige vertragingen simuleren helpt timeoutgedrag realistisch te testen.
@@ -1629,6 +1861,10 @@ Voorbeeld:
 - voeg random sleep toe in mock `fetchPrice`
 - test welke store als eerste terugkomt
 - verifieer fallback bij te trage store
+
+Analogie:
+
+- Willekeurige vertragingen zijn als verschillend verkeer voor bezorgers; je ontwerp moet onder alle omstandigheden betrouwbaar blijven.
 
 Korte samenvatting:
 
