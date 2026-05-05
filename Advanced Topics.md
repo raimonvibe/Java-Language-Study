@@ -564,3 +564,202 @@ Key takeaways:
 - Use `Comparable`/`Comparator` for sorting
 
 Choosing the right collection makes your code simpler and more efficient.
+
+---
+
+## Lambda Expressions and Functional Interfaces
+
+### 1) Introduction
+
+Lambdas let you write shorter, cleaner code for behavior you want to pass around.
+
+They are heavily used with collections, streams, and modern Java APIs.
+
+### 2) Functional Interfaces
+
+A functional interface has exactly one abstract method.
+
+```java
+@FunctionalInterface
+interface Printer {
+    void print(String message);
+}
+```
+
+This interface can be implemented with a lambda.
+
+### 3) Anonymous Inner Classes
+
+Before lambdas, Java often used anonymous classes for short behavior.
+
+```java
+Printer p = new Printer() {
+    public void print(String message) {
+        System.out.println(message);
+    }
+};
+```
+
+This works, but it is verbose.
+
+### 4) Lambda Expressions
+
+A lambda is a shorter way to implement a functional interface.
+
+```java
+Printer p = message -> System.out.println(message);
+p.print("Hello");
+```
+
+Same behavior, less boilerplate.
+
+### 5) Variable Capture
+
+Lambdas can use local variables from surrounding scope, but those variables must be final or effectively final.
+
+```java
+String prefix = "Log: ";
+Printer p = msg -> System.out.println(prefix + msg);
+```
+
+If you reassign `prefix`, Java will reject it.
+
+### 6) Method References
+
+Method references are shortcuts when a lambda only calls one method.
+
+```java
+Printer p = System.out::println;
+p.print("Hello");
+```
+
+They improve readability in many cases.
+
+### 7) Built-in Functional Interfaces
+
+Java provides common functional interfaces in `java.util.function`, such as:
+
+- `Consumer<T>`
+- `Supplier<T>`
+- `Function<T, R>`
+- `Predicate<T>`
+- `BinaryOperator<T>`
+- `UnaryOperator<T>`
+
+Use these instead of creating new interfaces when possible.
+
+### 8) The Consumer Interface
+
+`Consumer<T>` takes a value and returns nothing.
+
+```java
+java.util.function.Consumer<String> print = s -> System.out.println(s);
+print.accept("Java");
+```
+
+Good for side effects like logging or printing.
+
+### 9) Chaining Consumer
+
+You can chain consumers with `andThen`.
+
+```java
+java.util.function.Consumer<String> c1 = s -> System.out.println("First: " + s);
+java.util.function.Consumer<String> c2 = s -> System.out.println("Second: " + s);
+
+c1.andThen(c2).accept("Item");
+```
+
+Both run in order.
+
+### 10) The Supplier Interface
+
+`Supplier<T>` provides a value and takes no input.
+
+```java
+java.util.function.Supplier<Double> random = () -> Math.random();
+System.out.println(random.get());
+```
+
+Useful for lazy value creation.
+
+### 11) The Function Interface
+
+`Function<T, R>` transforms one value into another.
+
+```java
+java.util.function.Function<String, Integer> length = s -> s.length();
+System.out.println(length.apply("Java")); // 4
+```
+
+Great for mapping/converting data.
+
+### 12) Composing Functions
+
+Functions can be combined using `andThen` and `compose`.
+
+```java
+java.util.function.Function<Integer, Integer> times2 = x -> x * 2;
+java.util.function.Function<Integer, Integer> plus1 = x -> x + 1;
+
+System.out.println(times2.andThen(plus1).apply(3)); // 7
+```
+
+Composition helps build reusable processing pipelines.
+
+### 13) The Predicate Interface
+
+`Predicate<T>` checks a condition and returns boolean.
+
+```java
+java.util.function.Predicate<String> isLong = s -> s.length() > 5;
+System.out.println(isLong.test("Stefan")); // true
+```
+
+Useful for filtering data.
+
+### 14) Combining Predicates
+
+Combine predicates using `and`, `or`, and `negate`.
+
+```java
+java.util.function.Predicate<String> startsWithA = s -> s.startsWith("A");
+java.util.function.Predicate<String> longName = s -> s.length() > 3;
+
+System.out.println(startsWithA.and(longName).test("Alex")); // true
+```
+
+This keeps conditions modular and readable.
+
+### 15) The BinaryOperator Interface
+
+`BinaryOperator<T>` takes two values of same type and returns one value of same type.
+
+```java
+java.util.function.BinaryOperator<Integer> add = (a, b) -> a + b;
+System.out.println(add.apply(2, 3)); // 5
+```
+
+Useful for combining or reducing values.
+
+### 16) The UnaryOperator Interface
+
+`UnaryOperator<T>` takes one value and returns same type.
+
+```java
+java.util.function.UnaryOperator<Integer> square = x -> x * x;
+System.out.println(square.apply(4)); // 16
+```
+
+Useful for same-type transformations.
+
+### 17) Summary
+
+Key points:
+
+- Lambdas simplify functional-style coding
+- Functional interfaces define single-behavior contracts
+- Built-in interfaces cover most common cases
+- Composition/chaining creates reusable logic
+
+These features help you write concise, expressive, and modern Java code.
