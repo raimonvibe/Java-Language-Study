@@ -311,3 +311,198 @@ System.out.println(Employee.count);
 ```
 
 You can access static members with the class name, like `Employee.count`.
+
+---
+
+## Refactoring Towards an Object-oriented Design
+
+### 1) Introduction
+
+In this section, the goal is not just to make code work - it is to make code clean, reusable, and object-oriented.
+
+You will take a working program and gradually improve its design step by step.
+
+### 2) The Problem
+
+Many beginner programs start with everything inside one big `main` method.
+
+That works at first, but it becomes hard to:
+
+- read the code
+- test parts separately
+- reuse logic
+- change one thing without breaking another
+
+This is exactly where refactoring helps.
+
+### 3) What Classes Do We Need?
+
+A good first refactoring question is:
+
+"What responsibilities exist in this program?"
+
+For a mortgage app, common responsibilities are:
+
+- Reading user input
+- Calculating mortgage numbers
+- Printing reports
+
+That suggests classes like:
+
+- `Console` (input/output)
+- `MortgageCalculator` (math logic)
+- `MortgageReport` (display/report formatting)
+
+### 4) Extracting the Console Class
+
+Instead of reading input directly in `main`, move that logic into a `Console` class.
+
+```java
+class Console {
+    public static double readNumber(String prompt) {
+        System.out.print(prompt);
+        return new java.util.Scanner(System.in).nextDouble();
+    }
+}
+```
+
+Now `main` becomes cleaner and easier to follow.
+
+### 5) Overloading Methods
+
+Overloading is useful when you want similar behavior with different inputs.
+
+Example in `Console`:
+
+```java
+class Console {
+    public static double readNumber(String prompt) { /* ... */ return 0; }
+    public static double readNumber(String prompt, double min, double max) { /* ... */ return 0; }
+}
+```
+
+This helps you validate input without repeating logic.
+
+### 6) Extracting the MortgageReport Class
+
+Printing the schedule/report is a separate responsibility from calculations.
+
+Move report code into `MortgageReport`.
+
+```java
+class MortgageReport {
+    public void printMonthlyPayment(double payment) {
+        System.out.println("MONTHLY PAYMENTS");
+        System.out.println("----------------");
+        System.out.println(payment);
+    }
+}
+```
+
+This keeps presentation code in one place.
+
+### 7) Extracting the MortgageCalculator Class
+
+All mortgage formulas belong in a dedicated class.
+
+```java
+class MortgageCalculator {
+    private final int principal;
+    private final float annualInterest;
+    private final byte years;
+
+    public MortgageCalculator(int principal, float annualInterest, byte years) {
+        this.principal = principal;
+        this.annualInterest = annualInterest;
+        this.years = years;
+    }
+}
+```
+
+This class becomes the single source of truth for mortgage math.
+
+### 8) Moving Away from Static Members
+
+At first, static methods are convenient. But too much static usage makes code rigid.
+
+Object-oriented design prefers instance methods when logic depends on object state.
+
+Better direction:
+
+- create an object with constructor data
+- call instance methods like `calculator.calculateMortgage()`
+
+This improves testability and flexibility.
+
+### 9) Moving Static Fields
+
+Constants that belong to a class should stay in that class.
+
+```java
+class MortgageCalculator {
+    private static final byte MONTHS_IN_YEAR = 12;
+    private static final byte PERCENT = 100;
+}
+```
+
+This improves cohesion (related things stay together).
+
+### 10) Extracting Duplicate Logic
+
+If you repeat the same formula in two methods, extract it once.
+
+Before:
+
+- monthly interest formula repeated
+- payment count formula repeated
+
+After:
+
+```java
+private float getMonthlyInterest() {
+    return annualInterest / PERCENT / MONTHS_IN_YEAR;
+}
+```
+
+This reduces mistakes and makes updates easier.
+
+### 11) Extracting getRemainingBalances
+
+When generating a payment schedule, you often need many balances.
+
+Instead of mixing loops and print logic everywhere, extract a method:
+
+```java
+public double[] getRemainingBalances() {
+    double[] balances = new double[years * MONTHS_IN_YEAR];
+    for (short month = 1; month <= balances.length; month++)
+        balances[month - 1] = calculateBalance(month);
+    return balances;
+}
+```
+
+Now reporting code can focus on display, not calculations.
+
+### 12) One Last Touch
+
+After main refactoring, do a final cleanup pass:
+
+- rename unclear variables
+- improve method names
+- remove dead code
+- format consistently
+
+These small touches significantly improve readability.
+
+### 13) A Quick Note
+
+Refactoring is not a one-time action. It is a habit.
+
+A strong workflow is:
+
+1. Make it work
+2. Refactor to improve design
+3. Keep behavior the same
+4. Repeat in small safe steps
+
+That is how you move from "code that runs" to "code that is professional and maintainable."
