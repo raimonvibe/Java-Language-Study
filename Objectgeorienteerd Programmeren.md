@@ -111,6 +111,14 @@ Korte samenvatting:
 - objecten bevatten echte data
 - kern-OOP-tools helpen je code veilig, herbruikbaar en wijzigbaar te houden
 
+Overeenkomst tussen kernconcepten:
+
+- Encapsulatie beschermt data.
+- Abstractie verbergt complexiteit.
+- Lage coupling houdt onderdelen flexibel.
+
+Samen zorgen ze voor code die zowel veilig als onderhoudbaar is.
+
 ### 2) Klassen en Objecten
 
 Een **class** is een blauwdruk.  
@@ -413,6 +421,14 @@ Korte samenvatting:
 - doel is leesbaarheid, hergebruik en onderhoudbaarheid
 - kleine veilige stappen zijn beter dan één grote herschrijving
 
+Overeenkomst tussen ontwerpprincipes:
+
+- separation of concerns splitst verantwoordelijkheden
+- cohesion houdt gerelateerde code bij elkaar
+- lage coupling maakt onderdelen vervangbaar
+
+Refactoring brengt deze principes stap voor stap in je code.
+
 ### 2) Het Probleem
 
 Veel beginnersprogramma's beginnen met alles in één grote `main`-methode.
@@ -654,6 +670,14 @@ Korte samenvatting:
 - parent class = gedeeld gedrag
 - child class = gespecialiseerd gedrag
 - inheritance modelleert "is-a"-relaties
+
+Overeenkomst tussen inheritance-concepten:
+
+- overriding geeft kindspecifiek gedrag
+- polymorfisme gebruikt dat gedrag via parent-referenties
+- abstracte klassen combineren gedeelde basis met verplichte implementatie
+
+Deze drie werken samen om herbruikbare en uitbreidbare hiërarchieën te maken.
 
 ### 2) Inheritance
 
@@ -918,6 +942,14 @@ Korte samenvatting:
 - interface definieert vereist gedrag
 - klassen geven concrete implementatie
 - dit geeft lage coupling en makkelijker vervangbaarheid
+
+Overeenkomst tussen interface-concepten:
+
+- interfaces definiëren contracten
+- dependency injection levert implementaties aan
+- interface segregation houdt contracten klein en gericht
+
+Samen maken ze code beter testbaar, verwisselbaar en schaalbaar.
 
 ### 2) Wat zijn Interfaces
 
@@ -1221,3 +1253,8 @@ Korte samenvatting:
 - interfaces definiëren contracts
 - dependency injection verbindt contracts met implementaties
 - kleine gefocuste interfaces verbeteren onderhoudbaarheid
+
+Hoe dit samenhangt:
+
+- Interfaces vullen inheritance aan: inheritance deelt implementatie, interfaces delen contracten.
+- Met dependency injection combineer je beide voor flexibel, testbaar ontwerp.
