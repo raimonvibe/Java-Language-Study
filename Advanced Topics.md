@@ -763,3 +763,228 @@ Key points:
 - Composition/chaining creates reusable logic
 
 These features help you write concise, expressive, and modern Java code.
+
+---
+
+## Streams
+
+### 1) Introduction
+
+Streams let you process collections of data in a clean, pipeline style.
+
+You can chain operations like filter, map, sort, and collect in a readable way.
+
+### 2) Imperative vs Functional Programming
+
+Imperative style says **how** to do steps (loops, temp variables).  
+Functional style says **what** result you want.
+
+Imperative:
+
+```java
+java.util.List<String> result = new java.util.ArrayList<>();
+for (String name : java.util.List.of("alex", "bob"))
+    result.add(name.toUpperCase());
+```
+
+Functional (stream):
+
+```java
+java.util.List<String> result = java.util.List.of("alex", "bob")
+        .stream()
+        .map(String::toUpperCase)
+        .toList();
+```
+
+Both work, but functional style is often shorter and clearer for data transformation.
+
+### 3) Creating a Stream
+
+You can create streams from:
+
+- collections: `list.stream()`
+- arrays: `Arrays.stream(array)`
+- values: `Stream.of(...)`
+- ranges: `IntStream.range(...)`
+
+```java
+java.util.stream.Stream<String> stream = java.util.stream.Stream.of("A", "B", "C");
+```
+
+### 4) Mapping Elements
+
+`map()` transforms each element into something else.
+
+```java
+java.util.List<Integer> lengths = java.util.List.of("Java", "Stream")
+        .stream()
+        .map(String::length)
+        .toList();
+```
+
+`"Java"` becomes `4`, `"Stream"` becomes `6`.
+
+### 5) Filtering Elements
+
+`filter()` keeps only elements that match a condition.
+
+```java
+java.util.List<String> longNames = java.util.List.of("Al", "Alex", "Sam")
+        .stream()
+        .filter(name -> name.length() > 3)
+        .toList();
+```
+
+### 6) Slicing Streams
+
+Use:
+
+- `limit(n)` to keep first `n` items
+- `skip(n)` to skip first `n` items
+- `takeWhile(...)` / `dropWhile(...)` (ordered streams)
+
+```java
+java.util.List<Integer> sliced = java.util.List.of(1, 2, 3, 4, 5)
+        .stream()
+        .skip(1)
+        .limit(3)
+        .toList(); // [2, 3, 4]
+```
+
+### 7) Sorting Streams
+
+Use `sorted()` for natural ordering, or pass a comparator for custom order.
+
+```java
+java.util.List<String> sorted = java.util.List.of("Bob", "Alex", "Chris")
+        .stream()
+        .sorted()
+        .toList();
+```
+
+Custom sort:
+
+```java
+java.util.List<String> byLength = java.util.List.of("Bob", "Alexander", "Chris")
+        .stream()
+        .sorted(java.util.Comparator.comparingInt(String::length))
+        .toList();
+```
+
+### 8) Getting Unique Elements
+
+Use `distinct()` to remove duplicates.
+
+```java
+java.util.List<Integer> unique = java.util.List.of(1, 2, 2, 3, 3, 3)
+        .stream()
+        .distinct()
+        .toList(); // [1, 2, 3]
+```
+
+### 9) Peeking Elements
+
+`peek()` is useful for debugging stream pipelines.
+
+```java
+java.util.List.of("a", "b", "c")
+        .stream()
+        .peek(x -> System.out.println("Before: " + x))
+        .map(String::toUpperCase)
+        .peek(x -> System.out.println("After: " + x))
+        .toList();
+```
+
+Avoid using `peek()` for important business side effects.
+
+### 10) Simple Reducers
+
+Reducers compute a single value from stream data:
+
+- `count()`
+- `anyMatch()`, `allMatch()`, `noneMatch()`
+- `findFirst()`, `findAny()`
+
+```java
+long count = java.util.List.of("A", "B", "C").stream().count();
+```
+
+### 11) Reducing a Stream
+
+Use `reduce()` to combine elements into one result.
+
+```java
+int sum = java.util.List.of(1, 2, 3, 4)
+        .stream()
+        .reduce(0, Integer::sum);
+```
+
+`0` is identity, and `Integer::sum` combines values.
+
+### 12) Collectors
+
+Collectors convert stream results into containers or summaries.
+
+```java
+java.util.List<String> list = java.util.List.of("a", "b")
+        .stream()
+        .map(String::toUpperCase)
+        .collect(java.util.stream.Collectors.toList());
+```
+
+Common collectors:
+
+- `toList()`
+- `toSet()`
+- `toMap()`
+- `joining()`
+- `counting()`
+
+### 13) Grouping Elements
+
+`groupingBy()` groups elements by a key.
+
+```java
+java.util.Map<Integer, java.util.List<String>> grouped = java.util.List.of("a", "bb", "cc", "ddd")
+        .stream()
+        .collect(java.util.stream.Collectors.groupingBy(String::length));
+```
+
+Now items are grouped by string length.
+
+### 14) Partitioning Elements
+
+`partitioningBy()` splits elements into two groups (`true` / `false`) based on a predicate.
+
+```java
+java.util.Map<Boolean, java.util.List<Integer>> partitioned = java.util.List.of(1, 2, 3, 4)
+        .stream()
+        .collect(java.util.stream.Collectors.partitioningBy(n -> n % 2 == 0));
+```
+
+### 15) Primitive Type Streams
+
+Java has specialized streams for primitives:
+
+- `IntStream`
+- `LongStream`
+- `DoubleStream`
+
+They avoid boxing overhead and include numeric helpers.
+
+```java
+int total = java.util.stream.IntStream.rangeClosed(1, 5).sum(); // 15
+```
+
+### 16) Summary
+
+Streams help you process data with readable, chainable operations.
+
+Key ideas:
+
+- Create pipelines with map/filter/sort
+- Use reducers and collectors for final results
+- Use grouping/partitioning for structured outputs
+- Prefer primitive streams for number-heavy operations
+
+Once mastered, streams make data-processing code cleaner and more expressive.
