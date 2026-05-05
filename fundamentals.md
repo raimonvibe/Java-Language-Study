@@ -1,3 +1,5 @@
+# Fundamentals
+
 # Types
 
 ## Variables
