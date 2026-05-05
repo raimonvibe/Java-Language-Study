@@ -355,3 +355,212 @@ Key points:
 - Understand type erasure limitations
 
 Generics are a core Java skill for writing clean, scalable code.
+
+---
+
+## Collections
+
+### 1) Introduction
+
+Collections help you store and manage groups of objects in Java.
+
+Instead of manually handling arrays for every case, the Collections Framework gives reusable data structures like lists, sets, queues, and maps.
+
+### 2) Overview of Collections Framework
+
+Java Collections Framework is a set of interfaces + classes for working with grouped data.
+
+Main parts:
+
+- Interfaces (`List`, `Set`, `Queue`, `Map`)
+- Implementations (`ArrayList`, `HashSet`, `PriorityQueue`, `HashMap`)
+- Utility helpers (`Collections` class)
+
+You usually code to interfaces, then choose the best implementation.
+
+### 3) The Need for Iterables
+
+If you want custom objects to work in loops like `for-each`, Java needs a common way to traverse them.
+
+That is why `Iterable` exists.
+
+Without it, each class would need its own custom loop style.
+
+### 4) The Iterable Interface
+
+`Iterable<T>` allows an object to be iterated in a `for-each` loop.
+
+It requires one method:
+
+- `iterator()`
+
+```java
+class Numbers implements Iterable<Integer> {
+    public java.util.Iterator<Integer> iterator() {
+        return java.util.List.of(1, 2, 3).iterator();
+    }
+}
+```
+
+Now you can do:
+
+```java
+for (int n : new Numbers())
+    System.out.println(n);
+```
+
+### 5) The Iterator Interface
+
+`Iterator<T>` is used to move through elements one by one.
+
+Common methods:
+
+- `hasNext()`
+- `next()`
+
+```java
+java.util.List<String> names = java.util.List.of("A", "B", "C");
+java.util.Iterator<String> it = names.iterator();
+
+while (it.hasNext())
+    System.out.println(it.next());
+```
+
+### 6) The Collection Interface
+
+`Collection<E>` is a root interface for many collection types (`List`, `Set`, `Queue`).
+
+Common operations:
+
+- `add()`
+- `remove()`
+- `contains()`
+- `size()`
+- `isEmpty()`
+
+```java
+java.util.Collection<String> items = new java.util.ArrayList<>();
+items.add("Java");
+items.add("Spring");
+System.out.println(items.size()); // 2
+```
+
+### 7) The List Interface
+
+`List<E>` is an ordered collection that allows duplicates.
+
+Examples: `ArrayList`, `LinkedList`
+
+```java
+java.util.List<String> courses = new java.util.ArrayList<>();
+courses.add("Java");
+courses.add("Java");
+courses.add("SQL");
+System.out.println(courses.get(0)); // Java
+```
+
+Use `List` when order matters or duplicates are allowed.
+
+### 8) The Comparable Interface
+
+`Comparable<T>` defines natural ordering inside a class.
+
+```java
+class User implements Comparable<User> {
+    String name;
+
+    public int compareTo(User other) {
+        return this.name.compareTo(other.name);
+    }
+}
+```
+
+Now Java knows how to sort `User` objects by default.
+
+### 9) The Comparator Interface
+
+`Comparator<T>` defines external/custom sorting rules.
+
+```java
+java.util.Comparator<String> byLength =
+        (a, b) -> Integer.compare(a.length(), b.length());
+```
+
+Use `Comparator` when you want multiple sorting strategies without changing class code.
+
+### 10) The Queue Interface
+
+`Queue<E>` is designed for processing elements in order, often FIFO (first in, first out).
+
+Common methods:
+
+- `offer()` add
+- `poll()` remove head
+- `peek()` read head
+
+```java
+java.util.Queue<String> queue = new java.util.ArrayDeque<>();
+queue.offer("task1");
+queue.offer("task2");
+System.out.println(queue.poll()); // task1
+```
+
+### 11) The Set Interface
+
+`Set<E>` stores unique values (no duplicates).
+
+Examples: `HashSet`, `LinkedHashSet`, `TreeSet`
+
+```java
+java.util.Set<String> tags = new java.util.HashSet<>();
+tags.add("java");
+tags.add("java");
+System.out.println(tags.size()); // 1
+```
+
+Use `Set` when uniqueness matters.
+
+### 12) Hash Tables
+
+Hash-based collections (`HashSet`, `HashMap`) use hashing for fast lookup.
+
+Good average performance for add/find/remove is near O(1).
+
+For custom objects in hash collections, correctly override:
+
+- `equals()`
+- `hashCode()`
+
+These two must be consistent.
+
+### 13) The Map Interface
+
+`Map<K, V>` stores key-value pairs.
+
+Keys are unique, values can repeat.
+
+```java
+java.util.Map<String, Integer> scores = new java.util.HashMap<>();
+scores.put("Stefan", 95);
+scores.put("Alex", 88);
+System.out.println(scores.get("Stefan")); // 95
+```
+
+Useful methods:
+
+- `put()`
+- `get()`
+- `containsKey()`
+- `remove()`
+
+### 14) Summary
+
+Key takeaways:
+
+- Use `List` for ordered data with duplicates
+- Use `Set` for unique data
+- Use `Queue` for processing flow
+- Use `Map` for key-value lookups
+- Use `Comparable`/`Comparator` for sorting
+
+Choosing the right collection makes your code simpler and more efficient.
