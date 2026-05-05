@@ -175,3 +175,183 @@ Key ideas:
 - Use custom and chained exceptions for clearer error handling
 
 Good exception handling makes your code safer, cleaner, and easier to debug.
+
+---
+
+## Generics
+
+### 1) Introduction
+
+Generics let you write classes and methods that work with different data types safely.
+
+They help you avoid repeated code and reduce type-casting mistakes.
+
+### 2) The Need for Generics
+
+Without generics, collections often store values as `Object`, and you must cast later.
+
+That can cause runtime errors.
+
+Generics move many of those errors to compile time, which is safer.
+
+### 3) A Poor Solution
+
+A poor approach is creating separate classes for each type:
+
+- `IntList`
+- `StringList`
+- `UserList`
+
+This creates duplicated code.  
+Generics solve this by making one reusable class.
+
+### 4) Generic Classes
+
+A generic class uses a type parameter like `<T>`.
+
+```java
+class Box<T> {
+    private T value;
+
+    public void setValue(T value) {
+        this.value = value;
+    }
+
+    public T getValue() {
+        return value;
+    }
+}
+```
+
+Usage:
+
+```java
+Box<String> nameBox = new Box<>();
+nameBox.setValue("Stefan");
+```
+
+### 5) Generics and Primitive Types
+
+Generics work with reference types, not primitives.
+
+So this is invalid:
+
+```java
+// Box<int> box = new Box<>(); // invalid
+```
+
+Use wrapper classes:
+
+- `Integer` instead of `int`
+- `Double` instead of `double`
+- `Boolean` instead of `boolean`
+
+### 6) Constraints
+
+You can restrict generic types using bounds.
+
+```java
+class NumberBox<T extends Number> {
+    private T value;
+}
+```
+
+Now `T` must be `Number` or its subclass (like `Integer`, `Double`).
+
+### 7) Type Erasure
+
+Java generics are implemented with type erasure.
+
+At runtime, generic type details are mostly removed, and Java uses raw types internally.
+
+That is why you cannot do some things like:
+
+- `new T()`
+- checking exact generic type at runtime in simple ways
+
+### 8) Comparable Interface
+
+Generics often work with `Comparable<T>` for sorting/comparing.
+
+```java
+class User implements Comparable<User> {
+    private String name;
+
+    public int compareTo(User other) {
+        return this.name.compareTo(other.name);
+    }
+}
+```
+
+This lets Java compare `User` objects safely and consistently.
+
+### 9) Generic Methods
+
+Methods can also be generic, even inside non-generic classes.
+
+```java
+public static <T> void printItem(T item) {
+    System.out.println(item);
+}
+```
+
+You can call it with many types:
+
+```java
+printItem("Hello");
+printItem(123);
+```
+
+### 10) Multiple Type Parameters
+
+A class or method can use multiple type parameters.
+
+```java
+class Pair<K, V> {
+    private K key;
+    private V value;
+}
+```
+
+Useful for key-value style data and mapping scenarios.
+
+### 11) Generic Classes and Inheritance
+
+Generic types work with inheritance, but be careful:
+
+- `List<Dog>` is **not** a subtype of `List<Animal>`
+
+Even if `Dog` extends `Animal`, generic containers are invariant by default.
+
+This prevents unsafe assignments.
+
+### 12) Wildcards
+
+Wildcards make generic APIs more flexible.
+
+- `?` unknown type
+- `? extends T` upper bound (read mostly)
+- `? super T` lower bound (write mostly)
+
+Example:
+
+```java
+public static void printNames(java.util.List<? extends CharSequence> items) {
+    for (CharSequence item : items)
+        System.out.println(item);
+}
+```
+
+Now method accepts `List<String>`, `List<StringBuilder>`, etc.
+
+### 13) Summary
+
+Key points:
+
+- Generics give type safety and reusability
+- Use generic classes and methods to remove duplicate code
+- Use bounds and wildcards for flexible but safe APIs
+- Remember wrappers for primitive types
+- Understand type erasure limitations
+
+Generics are a core Java skill for writing clean, scalable code.
