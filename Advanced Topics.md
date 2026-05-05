@@ -988,3 +988,213 @@ Key ideas:
 - Prefer primitive streams for number-heavy operations
 
 Once mastered, streams make data-processing code cleaner and more expressive.
+
+---
+
+## Concurrency and Multi-threading
+
+### 1) Introduction
+
+Concurrency means handling multiple tasks at the same time.
+
+In Java, this is often done with threads so programs can be more responsive and make better use of CPU resources.
+
+### 2) Processes and Threads
+
+- A **process** is a running program with its own memory space.
+- A **thread** is a smaller execution unit inside a process.
+
+One process can have many threads sharing the same memory.
+
+### 3) Starting a Thread
+
+You can start a new thread by passing code (a `Runnable`) to `Thread`.
+
+```java
+Thread thread = new Thread(() -> System.out.println("Running in thread"));
+thread.start();
+```
+
+Use `start()`, not `run()`, to actually create a separate thread.
+
+### 4) Pausing a Thread
+
+Use `Thread.sleep(milliseconds)` to pause current thread.
+
+```java
+try {
+    Thread.sleep(1000);
+} catch (InterruptedException e) {
+    Thread.currentThread().interrupt();
+}
+```
+
+Sleeping is useful for delays, retries, or simulation.
+
+### 5) Joining a Thread
+
+`join()` makes one thread wait until another finishes.
+
+```java
+Thread worker = new Thread(() -> System.out.println("Work done"));
+worker.start();
+worker.join(); // wait for worker
+```
+
+This helps coordinate task order.
+
+### 6) Interrupting a Thread
+
+Interrupting asks a thread to stop what it is doing.
+
+```java
+thread.interrupt();
+```
+
+In long-running code, check interrupt status and exit gracefully.
+
+### 7) Concurrency Issues
+
+Multiple threads sharing mutable data can cause bugs like:
+
+- lost updates
+- inconsistent reads
+- unexpected ordering
+
+These bugs are often hard to reproduce.
+
+### 8) Race Conditions
+
+A race condition happens when result depends on thread timing.
+
+Example: two threads increment same counter at once and one update is lost.
+
+```java
+counter++; // not atomic
+```
+
+`counter++` is multiple steps, not one safe operation.
+
+### 9) Strategies for Thread Safety
+
+Common strategies:
+
+- Avoid shared mutable state
+- Use immutable objects
+- Use synchronization/locks
+- Use thread-safe collections/atomic classes
+
+Pick the simplest strategy that solves the problem.
+
+### 10) Confinement
+
+Confinement means limiting data to one thread only.
+
+If only one thread can access data, no synchronization is needed for that data.
+
+Example: local variables inside a method are thread-confined.
+
+### 11) Locks
+
+Locks ensure only one thread accesses critical code at a time.
+
+```java
+java.util.concurrent.locks.Lock lock = new java.util.concurrent.locks.ReentrantLock();
+lock.lock();
+try {
+    // critical section
+} finally {
+    lock.unlock();
+}
+```
+
+Always unlock in `finally`.
+
+### 12) The synchronized Keyword
+
+`synchronized` is built-in Java locking.
+
+```java
+public synchronized void increment() {
+    count++;
+}
+```
+
+Only one thread can run this synchronized method on same object at once.
+
+### 13) The volatile Keyword
+
+`volatile` ensures changes to a variable are visible across threads quickly.
+
+```java
+private volatile boolean running = true;
+```
+
+Use it for visibility, not for compound atomic operations (like `count++`).
+
+### 14) Thread Signalling with wait() and notify()
+
+Threads can coordinate by waiting and notifying on same monitor object.
+
+```java
+synchronized (lock) {
+    lock.wait();   // releases lock and waits
+    lock.notify(); // wakes one waiting thread
+}
+```
+
+Usually used in producer-consumer style coordination.
+
+### 15) Atomic Objects
+
+Atomic classes perform thread-safe operations without manual locks.
+
+```java
+java.util.concurrent.atomic.AtomicInteger counter = new java.util.concurrent.atomic.AtomicInteger();
+counter.incrementAndGet();
+```
+
+Great for counters and simple shared numeric state.
+
+### 16) Adders
+
+`LongAdder` / `DoubleAdder` are optimized for high-contention counters.
+
+```java
+java.util.concurrent.atomic.LongAdder adder = new java.util.concurrent.atomic.LongAdder();
+adder.increment();
+long total = adder.sum();
+```
+
+Often faster than `AtomicLong` under heavy parallel updates.
+
+### 17) Synchronized Collections
+
+Java provides synchronized wrappers:
+
+```java
+java.util.List<String> list = java.util.Collections.synchronizedList(new java.util.ArrayList<>());
+```
+
+They are thread-safe but can become bottlenecks under heavy concurrency.
+
+### 18) Concurrent Collections
+
+`java.util.concurrent` has collections built for concurrency, like:
+
+- `ConcurrentHashMap`
+- `CopyOnWriteArrayList`
+- `ConcurrentLinkedQueue`
+
+They usually scale better than synchronized wrappers.
+
+### 19) Summary
+
+Key ideas:
+
+- Threads improve responsiveness and throughput
+- Shared mutable state causes most concurrency bugs
+- Use synchronization, locks, atomic classes, and concurrent collections carefully
+- Prefer simple, clear thread-safe design first
+
+Concurrency is powerful, but correctness comes before speed.
