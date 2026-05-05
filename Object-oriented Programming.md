@@ -63,3 +63,251 @@ Car car2 = new Car();
 ```
 
 You write the class once, then reuse it many times.
+
+---
+
+## Core OOP Concepts
+
+### 1) Introduction
+
+Now we go deeper into the building blocks of OOP in Java.
+
+Think of this section as the practical part: how to create classes, create objects, and design cleaner code.
+
+### 2) Classes and Objects
+
+A **class** is a blueprint.  
+An **object** is a real instance created from that blueprint.
+
+Example:
+
+- Class: `Car`
+- Object: `myCar`
+
+```java
+class Car {
+    String brand;
+}
+```
+
+`Car` defines what a car object can have.
+
+### 3) Creating Classes
+
+When creating a class, start with:
+
+- Fields (data)
+- Methods (behavior)
+
+```java
+class Employee {
+    String name;
+    int id;
+
+    void work() {
+        System.out.println(name + " is working.");
+    }
+}
+```
+
+Keep classes focused on one clear responsibility.
+
+### 4) Creating Objects
+
+You create objects using `new`.
+
+```java
+Employee emp1 = new Employee();
+emp1.name = "Sara";
+emp1.id = 101;
+emp1.work();
+```
+
+Each object gets its own field values.
+
+### 5) Memory Allocation
+
+In simple terms:
+
+- Local primitive values are stored directly
+- Objects are created in heap memory
+- Variables like `emp1` store references to those objects
+
+```java
+Employee emp1 = new Employee();
+Employee emp2 = emp1;
+```
+
+Now `emp1` and `emp2` point to the same object in memory.
+
+### 6) Procedural Programming
+
+Procedural programming organizes code mainly as functions/steps.
+
+OOP organizes code around objects.
+
+Procedural style is fine for small scripts, but for large apps it can become messy because data and logic are separated too much.
+
+OOP improves this by keeping related data + behavior together.
+
+### 7) Encapsulation
+
+Encapsulation means hiding internal details and controlling access through methods.
+
+You often do this by making fields `private`.
+
+```java
+class Account {
+    private double balance;
+}
+```
+
+This prevents outside code from changing `balance` in unsafe ways.
+
+### 8) Getters and Setters
+
+Getters read private fields.  
+Setters update private fields with control/validation.
+
+```java
+class Account {
+    private double balance;
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        if (balance >= 0)
+            this.balance = balance;
+    }
+}
+```
+
+This protects your object from invalid data.
+
+### 9) Abstraction
+
+Abstraction means showing only what is needed and hiding complex details.
+
+For example, a user can call `car.start()` without knowing all internal engine steps.
+
+Abstraction makes code easier to use and understand.
+
+### 10) Coupling
+
+Coupling is how strongly classes depend on each other.
+
+- High coupling = classes are tightly connected (harder to change)
+- Low coupling = classes are more independent (easier to maintain)
+
+Goal: keep coupling low when possible.
+
+### 11) Reducing Coupling
+
+Ways to reduce coupling:
+
+- Depend on interfaces instead of concrete classes
+- Pass dependencies through constructors or methods
+- Keep classes focused on one job
+
+Bad idea:
+
+```java
+class OrderService {
+    private EmailService email = new EmailService(); // tightly coupled
+}
+```
+
+Better idea:
+
+```java
+class OrderService {
+    private NotificationService notificationService;
+
+    public OrderService(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+}
+```
+
+Now you can swap implementations more easily.
+
+### 12) Constructors
+
+A constructor is a special method used when creating objects.
+
+- Same name as class
+- No return type
+
+```java
+class User {
+    String name;
+
+    User(String name) {
+        this.name = name;
+    }
+}
+```
+
+When you create a `User`, constructor code runs automatically.
+
+### 13) Method Overloading
+
+Method overloading means using the same method name with different parameters.
+
+```java
+class Printer {
+    void print(String text) {
+        System.out.println(text);
+    }
+
+    void print(int number) {
+        System.out.println(number);
+    }
+}
+```
+
+Java picks the correct version based on arguments.
+
+### 14) Constructor Overloading
+
+You can also overload constructors.
+
+```java
+class Product {
+    String name;
+    double price;
+
+    Product(String name) {
+        this.name = name;
+    }
+
+    Product(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+}
+```
+
+This gives flexible ways to create objects.
+
+### 15) Static Members
+
+`static` members belong to the class itself, not to each object.
+
+Use static when data/behavior is shared by all objects.
+
+```java
+class Employee {
+    static int count = 0;
+
+    Employee() {
+        count++;
+    }
+}
+
+System.out.println(Employee.count);
+```
+
+You can access static members with the class name, like `Employee.count`.
