@@ -563,6 +563,12 @@ for (int number : numbers) {
 
 Use for-each when you do not need the index position.
 
+Simple summary:
+
+- comparison/logical operators decide true/false paths
+- `if`/`switch` choose code branches
+- loops repeat code with different control styles
+
 How this connects:
 
 - `Control Flow` teaches how to direct program behavior.
@@ -593,6 +599,12 @@ System.out.println(monthlyPayment);
 ```
 
 Small clarity improvements save a lot of time later.
+
+Simple summary:
+
+- clean code is easier to read, test, and change
+- methods reduce duplication and improve reuse
+- refactoring keeps behavior same while improving structure
 
 ## Creating Methods
 
@@ -774,6 +786,12 @@ Final mindset:
 2. Make it clear
 3. Make it clean
 
+Quick use guide:
+
+- extract methods when code blocks repeat
+- keep methods small and purpose-focused
+- refactor a little at a time, then re-test
+
 How this connects:
 
 - `Methods & Clean Code` helps you structure and improve code.
@@ -809,6 +827,12 @@ int result = 10 / 0; // runtime error: ArithmeticException
 ```
 
 Understanding the error type helps you fix it faster.
+
+Quick use guide:
+
+- syntax error -> fix code grammar first
+- runtime error -> inspect failing line and inputs
+- logical error -> verify conditions, formulas, and expectations
 
 ## Common Syntax Errors
 
@@ -877,6 +901,12 @@ This helps you verify whether values are what you expect.
 
 Debugging is a skill that gets better with practice.
 
+Simple summary:
+
+- reproduce issue consistently
+- inspect data at each step
+- fix one variable/factor at a time
+
 ## Packaging Java Applications
 
 Packaging means bundling compiled code so it can run from the command line or be shared.
@@ -904,3 +934,9 @@ What this does:
 - `java -jar` runs your packaged app
 
 For bigger projects, build tools like Maven or Gradle automate this process.
+
+Simple summary:
+
+- debug to make code reliable
+- package to make code runnable outside your IDE
+- both are key parts of real-world development
