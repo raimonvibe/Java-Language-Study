@@ -506,3 +506,209 @@ A strong workflow is:
 4. Repeat in small safe steps
 
 That is how you move from "code that runs" to "code that is professional and maintainable."
+
+---
+
+## Inheritance
+
+### 1) Introduction
+
+Inheritance lets one class reuse fields and methods from another class.
+
+It helps you avoid repetition and model "is-a" relationships, like `Dog` is an `Animal`.
+
+### 2) Inheritance
+
+A child class extends a parent class using `extends`.
+
+```java
+class Animal {
+    void eat() {
+        System.out.println("Eating...");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Barking...");
+    }
+}
+```
+
+`Dog` now has both `eat()` and `bark()`.
+
+### 3) The Object Class
+
+In Java, every class directly or indirectly extends `Object`.
+
+That means every object has default methods like:
+
+- `toString()`
+- `equals()`
+- `hashCode()`
+
+So even your custom classes inherit common behavior automatically.
+
+### 4) Constructors and Inheritance
+
+When creating a child object, parent constructor runs first.
+
+```java
+class Animal {
+    Animal() {
+        System.out.println("Animal constructor");
+    }
+}
+
+class Dog extends Animal {
+    Dog() {
+        System.out.println("Dog constructor");
+    }
+}
+```
+
+This ensures parent state is initialized before child-specific logic.
+
+### 5) Access Modifiers
+
+Access modifiers control visibility:
+
+- `private` - only inside same class
+- `protected` - same package + subclasses
+- `public` - everywhere
+- (no modifier) - package-private
+
+In inheritance, `protected` is often useful when children need controlled access.
+
+### 6) Overriding Methods
+
+A child class can provide its own version of a parent method.
+
+```java
+class Animal {
+    void speak() {
+        System.out.println("Animal sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void speak() {
+        System.out.println("Woof");
+    }
+}
+```
+
+Use `@Override` to make intention clear and catch mistakes.
+
+### 7) Upcasting and Downcasting
+
+- **Upcasting**: child -> parent (safe, automatic)
+- **Downcasting**: parent -> child (needs explicit cast, can fail)
+
+```java
+Animal a = new Dog(); // upcasting
+Dog d = (Dog) a;      // downcasting
+```
+
+Downcast only when you are sure the object is that child type.
+
+### 8) Comparing Objects
+
+`==` compares references (same object in memory).  
+`equals()` compares content/meaning (if properly overridden).
+
+```java
+String s1 = new String("Java");
+String s2 = new String("Java");
+
+System.out.println(s1 == s2);      // false
+System.out.println(s1.equals(s2)); // true
+```
+
+For custom classes, override `equals()` (and usually `hashCode()`) for value-based comparison.
+
+### 9) Polymorphism
+
+Polymorphism means one parent reference can point to many child types.
+
+```java
+Animal[] animals = { new Dog(), new Cat() };
+for (Animal animal : animals)
+    animal.speak();
+```
+
+Each child runs its own `speak()` version.  
+This is powerful for flexible and extensible design.
+
+### 10) Abstract Classes and Methods
+
+An abstract class cannot be instantiated directly.  
+It is a template for child classes.
+
+```java
+abstract class Shape {
+    abstract double area();
+}
+```
+
+Child classes must implement abstract methods.
+
+### 11) Final Classes and Methods
+
+- `final class` cannot be extended
+- `final method` cannot be overridden
+
+```java
+final class SecurityManager {
+}
+```
+
+Use `final` when behavior should stay fixed.
+
+### 12) Deep Inheritance Hierarchies
+
+Too many inheritance levels make code hard to understand and maintain.
+
+Try to keep hierarchies shallow and clear.  
+If inheritance gets complex, consider composition (using objects inside objects).
+
+### 13) Multiple Inheritance
+
+Java does not allow multiple inheritance of classes.
+
+This is not allowed:
+
+```java
+// class C extends A, B { } // invalid in Java
+```
+
+But Java supports implementing multiple interfaces.
+
+### 14) Inheritance Quiz
+
+Quick self-check:
+
+1. What is inherited from `Object`?
+2. Difference between overriding and overloading?
+3. Why is downcasting risky?
+4. When should you use `final`?
+5. Why can deep hierarchies become a problem?
+
+If you can answer these clearly, your inheritance basics are strong.
+
+### 15) Summary
+
+Inheritance helps you:
+
+- reuse code
+- model real relationships
+- support polymorphism
+
+Use it carefully:
+
+- prefer clear shallow hierarchies
+- override thoughtfully
+- combine with encapsulation and abstraction
+
+Done well, inheritance makes object-oriented code cleaner and more maintainable.
