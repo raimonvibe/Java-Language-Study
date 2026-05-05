@@ -749,3 +749,127 @@ Final mindset:
 1. Make it work
 2. Make it clear
 3. Make it clean
+
+---
+
+# Debugging and Deploying Applications
+
+## Introduction
+
+Writing code is only one part of programming. You also need to fix problems and share your app so others can run it.
+
+That is where debugging and deploying come in:
+
+- **Debugging** = finding and fixing problems
+- **Deploying/Packaging** = preparing your app to run outside your IDE
+
+## Types of Errors
+
+In Java, beginners usually meet three main error types:
+
+1. **Syntax errors** - code rules are broken (compiler catches these)
+2. **Runtime errors** - program crashes while running
+3. **Logical errors** - program runs, but gives wrong result
+
+Example:
+
+```java
+int result = 10 / 0; // runtime error: ArithmeticException
+```
+
+Understanding the error type helps you fix it faster.
+
+## Common Syntax Errors
+
+Syntax errors happen when Java grammar is wrong.
+
+Common examples:
+
+- Missing semicolon `;`
+- Misspelled keywords (`publc` instead of `public`)
+- Missing braces `{ }`
+- Wrong quotes (`'Hello'` instead of `"Hello"` for strings)
+
+Example with errors:
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello")
+    }
+}
+```
+
+This fails because of the missing semicolon after `println`.
+
+Fix:
+
+```java
+System.out.println("Hello");
+```
+
+## Debugging Java Applications
+
+Debugging means inspecting your program step by step to find where things go wrong.
+
+Useful debugging tools:
+
+- Breakpoints
+- Step Over / Step Into
+- Variable inspection
+- Call stack view
+
+Simple method to debug:
+
+1. Reproduce the bug
+2. Read the error message carefully
+3. Check the line mentioned in the stack trace
+4. Use breakpoints before the problem line
+5. Watch variable values change step by step
+6. Fix one thing at a time
+
+You can also use quick print debugging:
+
+```java
+System.out.println("monthlyInterest = " + monthlyInterest);
+System.out.println("numberOfPayments = " + numberOfPayments);
+```
+
+This helps you verify whether values are what you expect.
+
+### Mini Debug Checklist
+
+- Did the program crash? Read the exception type first.
+- Did it run but give wrong output? Re-check your formulas and conditions.
+- Are your inputs valid and in the expected range?
+- Did you change one thing, then test again?
+
+Debugging is a skill that gets better with practice.
+
+## Packaging Java Applications
+
+Packaging means bundling compiled code so it can run from the command line or be shared.
+
+A common package format is a **JAR** file.
+
+Basic flow:
+
+1. Compile `.java` files to `.class` files
+2. Package them into a `.jar`
+3. Run the jar with Java
+
+Typical commands:
+
+```bash
+javac Main.java
+jar cfe app.jar Main Main.class
+java -jar app.jar
+```
+
+What this does:
+
+- `javac` compiles source code
+- `jar cfe` creates an executable JAR and sets the main class
+- `java -jar` runs your packaged app
+
+For bigger projects, build tools like Maven or Gradle automate this process.
