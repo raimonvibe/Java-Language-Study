@@ -545,3 +545,207 @@ for (int number : numbers) {
 ```
 
 Use for-each when you do not need the index position.
+
+---
+
+# Methods & Clean Code
+
+## Clean Coding
+
+Clean code is code that is easy to read, understand, and change later.
+
+Beginner rule: write code for humans first, computer second.
+
+A few clean-code habits:
+
+- Use clear names (`monthlyPayment` instead of `mp`)
+- Keep methods short and focused
+- Avoid repeating the same logic
+- Keep formatting consistent
+
+```java
+double monthlyPayment = 250.75;
+System.out.println(monthlyPayment);
+```
+
+Small clarity improvements save a lot of time later.
+
+## Creating Methods
+
+A method is a named block of code that performs one task.
+
+Instead of writing everything inside `main`, split work into methods.
+
+```java
+public static void greetUser(String name) {
+    System.out.println("Hello " + name);
+}
+```
+
+Call it like this:
+
+```java
+greetUser("Stefan");
+```
+
+Methods make your code reusable and easier to test.
+
+## Refactoring
+
+Refactoring means improving code structure without changing what the program does.
+
+You are not adding features - you are cleaning and organizing.
+
+Example idea:
+
+- Before: one long method with mixed tasks
+- After: multiple small methods with clear names
+
+Refactor in small safe steps and keep running your program.
+
+## Extracting Methods
+
+Extracting methods means taking a chunk of code and moving it into its own method.
+
+Before:
+
+```java
+double principal = 100_000;
+double annualInterest = 5;
+int years = 30;
+
+double monthlyInterest = annualInterest / 100 / 12;
+int numberOfPayments = years * 12;
+```
+
+After:
+
+```java
+double monthlyInterest = getMonthlyInterest(annualInterest);
+int numberOfPayments = getNumberOfPayments(years);
+```
+
+With helper methods:
+
+```java
+public static double getMonthlyInterest(double annualInterest) {
+    return annualInterest / 100 / 12;
+}
+
+public static int getNumberOfPayments(int years) {
+    return years * 12;
+}
+```
+
+This makes the main flow easier to read.
+
+## Refactoring Repetitive Patterns
+
+If you copy/paste logic, that is usually a sign to create a method.
+
+Before (repetitive):
+
+```java
+System.out.print("Principal: ");
+double principal = scanner.nextDouble();
+
+System.out.print("Interest: ");
+double interest = scanner.nextDouble();
+```
+
+After (reusable input method):
+
+```java
+public static double readNumber(Scanner scanner, String prompt) {
+    System.out.print(prompt);
+    return scanner.nextDouble();
+}
+```
+
+Then:
+
+```java
+double principal = readNumber(scanner, "Principal: ");
+double interest = readNumber(scanner, "Interest: ");
+```
+
+Less repetition means fewer bugs and easier updates.
+
+## Project - Payment Schedule
+
+Goal: build a small program that prints a loan payment schedule month by month.
+
+High-level steps:
+
+1. Read loan details (principal, annual interest, years)
+2. Calculate fixed monthly payment
+3. Loop through each month
+4. Show remaining balance after each payment
+
+This is a great beginner project because it uses:
+
+- variables and types
+- math expressions
+- methods
+- loops
+
+## Solution
+
+A simple structure could look like this:
+
+```java
+public static void main(String[] args) {
+    double principal = 100_000;
+    double annualInterest = 5;
+    int years = 30;
+
+    double payment = calculateMonthlyPayment(principal, annualInterest, years);
+    printPaymentSchedule(principal, annualInterest, years, payment);
+}
+```
+
+Monthly payment formula method:
+
+```java
+public static double calculateMonthlyPayment(double principal, double annualInterest, int years) {
+    double monthlyInterest = annualInterest / 100 / 12;
+    int numberOfPayments = years * 12;
+    return principal
+            * (monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments))
+            / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
+}
+```
+
+Schedule printing method:
+
+```java
+public static void printPaymentSchedule(double principal, double annualInterest, int years, double payment) {
+    int months = years * 12;
+    for (int month = 1; month <= months; month++) {
+        double balance = calculateBalance(principal, annualInterest, years, month, payment);
+        System.out.println("Month " + month + ": " + balance);
+    }
+}
+```
+
+## Refactoring the Code
+
+After making the program work, clean it up:
+
+- Move repeated math into helper methods
+- Use constants for fixed numbers (`MONTHS_IN_YEAR`, `PERCENT`)
+- Improve method names
+- Keep `main` short and readable
+
+Example constants:
+
+```java
+final byte MONTHS_IN_YEAR = 12;
+final byte PERCENT = 100;
+```
+
+Final mindset:
+
+1. Make it work
+2. Make it clear
+3. Make it clean
