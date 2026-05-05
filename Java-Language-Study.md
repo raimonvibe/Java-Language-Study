@@ -1,4 +1,6 @@
-# Variables
+# Types
+
+## Variables
 
 Variables are like labeled boxes in your program where you can store data. Think of them as little sticky notes with a name on them - you write a value on the note, and later you can look at that name to get the value back.
 
@@ -326,3 +328,220 @@ System.out.println("Hello " + name + ", age " + age);
 This lets your program interact with users instead of always using fixed values in code.
 
 Tip: if you are done with input, you can close the scanner with `scanner.close();`.
+
+---
+
+# Control Flow
+
+## Comparison Operators
+
+Comparison operators compare two values. The result is always a `boolean` (`true` or `false`).
+
+Common comparison operators:
+
+- `==` equal to
+- `!=` not equal to
+- `>` greater than
+- `<` less than
+- `>=` greater than or equal to
+- `<=` less than or equal to
+
+```java
+int age = 20;
+System.out.println(age >= 18); // true
+System.out.println(age == 21); // false
+```
+
+## Logical Operators
+
+Logical operators let you combine multiple true/false checks.
+
+- `&&` AND (both conditions must be true)
+- `||` OR (at least one must be true)
+- `!` NOT (flips true/false)
+
+```java
+int age = 20;
+boolean hasId = true;
+System.out.println(age >= 18 && hasId); // true
+```
+
+## If Statements
+
+An `if` statement runs code only when a condition is true.
+
+```java
+int temperature = 30;
+
+if (temperature > 25) {
+    System.out.println("It's a warm day.");
+}
+```
+
+You can add `else` for the other case:
+
+```java
+if (temperature > 25) {
+    System.out.println("It's a warm day.");
+} else {
+    System.out.println("It's not warm.");
+}
+```
+
+## Simplifying If Statements
+
+Sometimes people write long `if` statements to assign a boolean. You can simplify this.
+
+Long version:
+
+```java
+int income = 120_000;
+boolean hasHighIncome;
+
+if (income > 100_000)
+    hasHighIncome = true;
+else
+    hasHighIncome = false;
+```
+
+Simplified version:
+
+```java
+boolean hasHighIncome = income > 100_000;
+```
+
+Cleaner code is easier to read and maintain.
+
+## The Ternary Operator
+
+The ternary operator is a short form of `if/else` for choosing one of two values.
+
+Syntax:
+
+```java
+condition ? valueIfTrue : valueIfFalse
+```
+
+Example:
+
+```java
+int income = 120_000;
+String className = (income > 100_000) ? "First" : "Economy";
+System.out.println(className);
+```
+
+Use ternary for simple choices, not for complex logic.
+
+## Switch Statements
+
+`switch` is useful when you compare one value against many fixed options.
+
+```java
+String role = "admin";
+
+switch (role) {
+    case "admin":
+        System.out.println("You have full access.");
+        break;
+    case "moderator":
+        System.out.println("You can manage comments.");
+        break;
+    default:
+        System.out.println("You are a guest.");
+}
+```
+
+`default` runs if no case matches.
+
+## Exercise - FizzBuzz
+
+FizzBuzz is a classic control-flow exercise.
+
+Rules:
+
+- If number is divisible by both 3 and 5, print `FizzBuzz`
+- If only divisible by 3, print `Fizz`
+- If only divisible by 5, print `Buzz`
+- Otherwise print the number
+
+```java
+int number = 15;
+
+if (number % 3 == 0 && number % 5 == 0)
+    System.out.println("FizzBuzz");
+else if (number % 3 == 0)
+    System.out.println("Fizz");
+else if (number % 5 == 0)
+    System.out.println("Buzz");
+else
+    System.out.println(number);
+```
+
+## For Loops
+
+A `for` loop repeats code a known number of times.
+
+```java
+for (int i = 1; i <= 5; i++) {
+    System.out.println(i);
+}
+```
+
+This prints numbers 1 to 5.
+
+## While Loops
+
+A `while` loop repeats as long as its condition is true.
+
+```java
+int i = 1;
+while (i <= 5) {
+    System.out.println(i);
+    i++;
+}
+```
+
+Use `while` when you do not know in advance exactly how many times to loop.
+
+## Do..While Loops
+
+A `do..while` loop runs the block at least once, then checks the condition.
+
+```java
+int i = 1;
+do {
+    System.out.println(i);
+    i++;
+} while (i <= 5);
+```
+
+This is useful when the first run should always happen.
+
+## Break and Continue Statements
+
+`break` stops the loop immediately.  
+`continue` skips the current loop step and moves to the next one.
+
+```java
+for (int i = 1; i <= 5; i++) {
+    if (i == 3)
+        continue; // skip 3
+    if (i == 5)
+        break;    // stop at 5
+    System.out.println(i);
+}
+```
+
+## For-Each Loop
+
+A for-each loop is the easiest way to loop through arrays (or collections) when you only need values.
+
+```java
+int[] numbers = {10, 20, 30};
+
+for (int number : numbers) {
+    System.out.println(number);
+}
+```
+
+Use for-each when you do not need the index position.
